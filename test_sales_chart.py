@@ -9,16 +9,14 @@ from sales_chart_app import calculate_totals, read_csv
 def test_calculate_totals_basic():
     """Test calculate_totals with basic data."""
     test_data = [
-        {"month": "January", "sales": 1000, "expenses": 500},
-        {"month": "February", "sales": 2000, "expenses": 800}
+        {"month": "January", "snow": 10, "temperature": -10},
+        {"month": "February", "snow": 20, "temperature": -5}
     ]
     
     result = calculate_totals(test_data)
     
-    # Test that calculations are correct
-    assert result["sales"] == 3000, "Total sales should be 3000"
-    assert result["expenses"] == 1300, "Total expenses should be 1300"
-    assert result["profit"] == 1700, "Total profit should be 1700"
+    assert result["total_snow"] == 30, "Total snow should be 30"
+    assert result["avg_temp"] == -7.5, "Average temp should be -7.5"
     
     print("✓ Basic totals test passed!")
 
@@ -27,9 +25,8 @@ def test_calculate_totals_empty():
     """Test calculate_totals with empty data."""
     result = calculate_totals([])
     
-    assert result["sales"] == 0, "Empty list should return 0 sales"
-    assert result["expenses"] == 0, "Empty list should return 0 expenses"
-    assert result["profit"] == 0, "Empty list should return 0 profit"
+    assert result["total_snow"] == 0, "Empty list should return 0 total_snow"
+    assert result["avg_temp"] == 0, "Empty list should return 0 avg_temp"
     
     print("✓ Empty data test passed!")
 
@@ -37,14 +34,13 @@ def test_calculate_totals_empty():
 def test_calculate_totals_single_item():
     """Test calculate_totals with a single item."""
     test_data = [
-        {"month": "January", "sales": 5000, "expenses": 3000}
+        {"month": "January", "snow": 15, "temperature": 5}
     ]
     
     result = calculate_totals(test_data)
     
-    assert result["sales"] == 5000, "Single item sales should be 5000"
-    assert result["expenses"] == 3000, "Single item expenses should be 3000"
-    assert result["profit"] == 2000, "Single item profit should be 2000"
+    assert result["total_snow"] == 15, "Single item total_snow should be 15"
+    assert result["avg_temp"] == 5.0, "Single item avg_temp should be 5.0"
     
     print("✓ Single item test passed!")
 
@@ -52,45 +48,42 @@ def test_calculate_totals_single_item():
 def test_calculate_totals_large_numbers():
     """Test calculate_totals with large numbers."""
     test_data = [
-        {"month": "January", "sales": 100000, "expenses": 50000},
-        {"month": "February", "sales": 200000, "expenses": 75000}
+        {"month": "January", "snow": 100, "temperature": -20},
+        {"month": "February", "snow": 200, "temperature": -15}
     ]
     
     result = calculate_totals(test_data)
     
-    assert result["sales"] == 300000, "Large numbers should calculate correctly"
-    assert result["expenses"] == 125000, "Large expenses should calculate correctly"
-    assert result["profit"] == 175000, "Large profit should calculate correctly"
+    assert result["total_snow"] == 300, "Large numbers should calculate correctly"
+    assert result["avg_temp"] == -17.5, "Average temp should calculate correctly"
     
     print("✓ Large numbers test passed!")
 
 
 def test_calculate_totals_loss_scenario():
-    """Test calculate_totals when expenses exceed sales (loss)."""
+    """Test calculate_totals with negative temperatures."""
     test_data = [
-        {"month": "January", "sales": 1000, "expenses": 2000}
+        {"month": "January", "snow": 25, "temperature": -30}
     ]
     
     result = calculate_totals(test_data)
     
-    assert result["sales"] == 1000
-    assert result["expenses"] == 2000
-    assert result["profit"] == -1000, "Profit should be negative when expenses > sales"
+    assert result["total_snow"] == 25
+    assert result["avg_temp"] == -30.0
     
-    print("✓ Loss scenario test passed!")
+    print("✓ Negative temperature scenario test passed!")
 
 
 def test_calculate_totals_zero_values():
     """Test calculate_totals with zero values."""
     test_data = [
-        {"month": "January", "sales": 0, "expenses": 0}
+        {"month": "January", "snow": 0, "temperature": 0}
     ]
     
     result = calculate_totals(test_data)
     
-    assert result["sales"] == 0
-    assert result["expenses"] == 0
-    assert result["profit"] == 0
+    assert result["total_snow"] == 0
+    assert result["avg_temp"] == 0.0
     
     print("✓ Zero values test passed!")
 
